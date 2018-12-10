@@ -19,7 +19,6 @@ public class Window extends JFrame {
     private static final int TIMER_DELAY = 1000 / 16;
     private final Timer gameLoopTimer;
 
-
     Block b = new BlockI();
 
     public Window() {
