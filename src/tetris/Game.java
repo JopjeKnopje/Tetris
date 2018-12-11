@@ -1,8 +1,12 @@
 package tetris;
 
+import tetris.graphics.Screen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
 
@@ -15,17 +19,35 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private boolean running = false;
 
+    private Screen screen;
+
+    // Image to draw thing on
+    private BufferedImage image = new BufferedImage(HEIGHT, WIDTH, BufferedImage.TYPE_INT_RGB);
+    // pixels from the image
+    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+
+
+
     public Game() {
+        // Set dimension of Canvas (The game class)
         Dimension size = new Dimension(WIDTH, HEIGHT);
         setPreferredSize(size);
+
+        screen = new Screen(WIDTH, HEIGHT);
+
         frame = new JFrame();
+
     }
+
+
 
     public synchronized void start() {
         running = true;
         thread = new Thread(this, "Display");
         thread.start();
     }
+
+
 
     public synchronized void stop() {
         running = false;
@@ -37,7 +59,9 @@ public class Game extends Canvas implements Runnable {
     }
 
 
+
     @Override
+    // Game loop
     public void run() {
         while (running) {
             tick();
@@ -45,23 +69,40 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
+
+
     public void render() {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
             return;
         }
+
+        screen.render();
+
+        // Copy rendered pixels to current pixel array
+        for (int i = 0; i < pixels.length; i++) {
+            pixels[i] = screen.pixels[i];
+        }
+
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.CYAN);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+
+//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         g.dispose();
         bs.show();
     }
 
+
+
     public void tick() {
+
     }
+
 
 
     public static void main(String args[]) {
