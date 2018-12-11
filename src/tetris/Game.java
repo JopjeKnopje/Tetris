@@ -90,8 +90,7 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.CYAN);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-
-//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         g.dispose();
         bs.show();
@@ -107,7 +106,7 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String args[]) {
         Game game = new Game();
-        game.frame.setResizable(false);
+//        game.frame.setResizable(false);
         game.frame.setTitle("Tetris");
         game.frame.add(game);
         game.frame.pack();
