@@ -1,6 +1,7 @@
 package tetris;
 
 import tetris.graphics.Screen;
+import tetris.io.KeyBoard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,6 @@ public class Game extends Canvas implements Runnable {
         addKeyListener(new KeyBoard());
 
         screen = new Screen(WIDTH, HEIGHT);
-
         frame = new JFrame();
 
     }
@@ -90,8 +90,8 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
+//        g.setColor(Color.BLACK);
+//        g.fillRect(0, 0, getWidth(), getHeight());
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // If you draw the image with a higher width/height it will stretch. just a tippie
 
@@ -118,7 +118,6 @@ public class Game extends Canvas implements Runnable {
         game.frame.setVisible(true);
 
         game.start();
-
     }
 
 }
