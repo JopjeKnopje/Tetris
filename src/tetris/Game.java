@@ -33,6 +33,8 @@ public class Game extends Canvas implements Runnable {
         Dimension size = new Dimension(WIDTH, HEIGHT);
         setPreferredSize(size);
 
+        addKeyListener(new KeyBoard());
+
         screen = new Screen(WIDTH, HEIGHT);
 
         frame = new JFrame();
@@ -81,7 +83,7 @@ public class Game extends Canvas implements Runnable {
         screen.clear();
         screen.render();
 
-        // Copy rendered pixels to current pixel array
+        // Copy rendered (Screen) pixels to current pixel array
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
@@ -91,7 +93,6 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // If you draw the image with a higher width/height it will stretch. just a tippie
 
         g.dispose();
