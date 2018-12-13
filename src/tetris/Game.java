@@ -28,7 +28,6 @@ public class Game extends Canvas implements Runnable {
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
 
-
     public Game() {
         // Set dimension of Canvas (The game class)
         Dimension size = new Dimension(WIDTH, HEIGHT);
