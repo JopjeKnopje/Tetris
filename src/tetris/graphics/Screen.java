@@ -1,45 +1,49 @@
 package tetris.graphics;
 
-import java.util.Random;
+
 
 public class Screen {
 
     private int width, height;
     public int[] pixels;
-    private int nextInt;
-    private Random random;
-    private String hex;
+    private int counter;
+    private int c;
+    private int time;
 
     public Screen(int width, int height) {
         this.width = width;
         this.height = height;
         pixels = new int[width * height];
+        counter = 0;
+
 
     }
 
     public void render() {
+        counter++;
+        if (counter % 2 == 0) time++;
+        if (time > width) time = 0;
+
+        c = Color.randomInt();
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                pixels[x + y * width] = 0x1f12ff;
-
+                pixels[x + y * width] = c;
             }
-
         }
 
     }
 
-
     public void clear() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                pixels[x + y * width] = Color.BLACK.getRGB();
+            }
+        }
+
 
     }
 
-    private int randomColor() {
-        nextInt = random.nextInt(256*256*256);
-        hex = String.format("0x%06x", nextInt);
-        System.out.println(hex);
-//        return hex;
-        return 0;
-    }
 
 
 }

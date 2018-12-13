@@ -21,9 +21,9 @@ public class Game extends Canvas implements Runnable {
 
     private Screen screen;
 
-    // Image to draw thing on
-    private BufferedImage image = new BufferedImage(HEIGHT, WIDTH, BufferedImage.TYPE_INT_RGB);
-    // pixels from the image
+    // Image to draw stuff on
+    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    // to access the pixels from the image
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
 
@@ -78,6 +78,7 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
+        screen.clear();
         screen.render();
 
         // Copy rendered pixels to current pixel array
@@ -90,7 +91,8 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // If you draw the image with a higher width/height it will stretch. just a tippie
 
         g.dispose();
         bs.show();
@@ -106,7 +108,7 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String args[]) {
         Game game = new Game();
-//        game.frame.setResizable(false);
+        game.frame.setResizable(false);
         game.frame.setTitle("Tetris");
         game.frame.add(game);
         game.frame.pack();
