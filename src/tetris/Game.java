@@ -62,8 +62,11 @@ public class Game extends Canvas implements Runnable {
 
 
     @Override
-    // Game loop
+    // Gets called when Thread.start();
     public void run() {
+        long lastTime = System.nanoTime();
+        final double ns = 1000000000.0 / 60 + lastTime;
+
         while (running) {
             tick();
             render();
@@ -82,17 +85,14 @@ public class Game extends Canvas implements Runnable {
         screen.clear();
         screen.render();
 
-        // Copy rendered (Screen) pixels to current pixel array
+        // Copy rendered (Screen) pixels to current pixel array.
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
 
-        Graphics g = bs.getDrawGraphics();
+        Graphics g = bs.getDrawGraphics(); // Get graphics object to draw to.
 
-//        g.setColor(Color.BLACK);
-//        g.fillRect(0, 0, getWidth(), getHeight());
-
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // If you draw the image with a higher width/height it will stretch. just a tippie
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null); // If you draw the image with a higher width/height it will stretch. just a tippie.
 
         g.dispose();
         bs.show();
