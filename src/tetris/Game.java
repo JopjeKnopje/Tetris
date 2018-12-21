@@ -11,6 +11,11 @@ import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
 
+
+    private final double TARGET_NS = 1000000000.0 / 60;
+
+
+
     // Dimensions
     private static final int CELL_SIZE = 30;
     private static final int HEIGHT = CELL_SIZE * 20;
@@ -65,12 +70,36 @@ public class Game extends Canvas implements Runnable {
     // Gets called when Thread.start();
     public void run() {
         long lastTime = System.nanoTime();
-        final double ns = 1000000000.0 / 60 + lastTime;
+        long timer = System.currentTimeMillis();
+        double delta = 0;
+
+        int frames = 0;
+        int updates = 0;
 
         while (running) {
-            tick();
+            long now = System.nanoTime();
+            delta += (now - lastTime) / TARGET_NS;
+            lastTime = now;
+
+            while (delta >= 1) {
+                tick();
+                updates++;
+                delta--;
+            }
+
             render();
+            frames++;
+
+            if (System.currentTimeMillis() - timer > 1000) {
+                timer += 1000;
+                frame.setTitle("fps: " + frames + ", ups: " + updates);
+                System.out.println("fps: " + frames + ", ups: " + updates);
+                frames = 0;
+                updates = 0;
+            }
+
         }
+        stop();
     }
 
 
