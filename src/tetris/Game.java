@@ -12,14 +12,13 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas implements Runnable {
 
 
-    private final double TARGET_NS = 1000000000.0 / 60;
-
-
+    private final int TARGET_FPS = 60;
+    private final double TARGET_NS = 1000000000.0 / TARGET_FPS;
 
     // Dimensions
-    private static final int CELL_SIZE = 30;
-    private static final int HEIGHT = CELL_SIZE * 20;
-    private static final int WIDTH = CELL_SIZE * 11;
+    public static final int TILE_SIZE = 32;
+    private static final int HEIGHT = TILE_SIZE * 20;
+    private static final int WIDTH = TILE_SIZE * 10;
 
     private Thread thread;
     private JFrame frame;
