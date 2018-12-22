@@ -5,13 +5,13 @@ import java.util.Random;
 
 public class Screen {
 
-    private static final int TILE_SIZE = 32;
+    private static final int TILE_SIZE_BIT = 5; // gets bitshifted
 
     private int width, height;
     public int[] pixels;
 
 
-    public int[] tiles = new int[64 * 64];
+    private int[] tiles = new int[64 * 64];
 
     private Random random = new Random();
 
@@ -37,7 +37,9 @@ public class Screen {
             for (int x = 0; x < width; x++) {
                 if(x >= width || x < 0) break; // if pixel is out of screen do not render that pixel
 
-                int tileIndex = (x / TILE_SIZE) + (y / TILE_SIZE) * 64;
+
+                // if x = 1, 1 / TILE_SIZE_BIT(32) = 0.03125 but it gets rounded up to 1 same to y.
+                int tileIndex = (x >> TILE_SIZE_BIT) + (y >> TILE_SIZE_BIT) * 64;
                 pixels[x + y * width] = tiles[tileIndex];
 
             }

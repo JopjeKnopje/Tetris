@@ -16,9 +16,10 @@ public class Game extends Canvas implements Runnable {
     private final double TARGET_NS = 1000000000.0 / TARGET_FPS;
 
     // Dimensions
-    public static final int TILE_SIZE = 32;
+    private static final int TILE_SIZE = 32;
     private static final int HEIGHT = TILE_SIZE * 20;
     private static final int WIDTH = TILE_SIZE * 10;
+
 
     private Thread thread;
     private JFrame frame;
@@ -32,7 +33,7 @@ public class Game extends Canvas implements Runnable {
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
 
-    public Game() {
+    private Game() {
         // Set dimension of Canvas (The game class)
         Dimension size = new Dimension(WIDTH, HEIGHT);
         setPreferredSize(size);
@@ -46,7 +47,7 @@ public class Game extends Canvas implements Runnable {
 
 
 
-    public synchronized void start() {
+    private synchronized void start() {
         running = true;
         thread = new Thread(this, "Display");
         thread.start();
@@ -54,7 +55,7 @@ public class Game extends Canvas implements Runnable {
 
 
 
-    public synchronized void stop() {
+    private synchronized void stop() {
         running = false;
         try {
             thread.join();
@@ -103,7 +104,7 @@ public class Game extends Canvas implements Runnable {
 
 
 
-    public void render() {
+    private void render() {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -113,10 +114,15 @@ public class Game extends Canvas implements Runnable {
         screen.clear();
         screen.render();
 
+
         // Copy rendered (Screen) pixels to current pixel array.
-        for (int i = 0; i < pixels.length; i++) {
-            pixels[i] = screen.pixels[i];
-        }
+        System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
+
+
+//        for (int i = 0; i < pixels.length; i++) {
+//            pixels[i] = screen.pixels[i];
+//        }
+
 
         Graphics g = bs.getDrawGraphics(); // Get graphics object to draw to.
 
@@ -128,19 +134,19 @@ public class Game extends Canvas implements Runnable {
 
 
 
-    public void tick() {
+    private void tick() {
 
     }
 
 
 
-    public static void main(String args[]) {
+    private static void main(String args[]) {
         Game game = new Game();
         game.frame.setResizable(false);
         game.frame.setTitle("Tetris");
         game.frame.add(game);
         game.frame.pack();
-        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         game.frame.setLocationRelativeTo(null);
         game.frame.setVisible(true);
 
